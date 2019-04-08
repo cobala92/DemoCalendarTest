@@ -3,7 +3,7 @@ package com.example.phuongdangn.democalendarkotlin
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import com.example.phuongdangn.democalendarkotlin.utils.DateUtils
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -11,6 +11,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var calendar: Calendar
     private lateinit var adapter: MonthPageAdapter
+    private var startDate: Date? = null
+    private var endDate: Date? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         adapter = MonthPageAdapter(supportFragmentManager, calendar)
         tvMonthOfYear.text = TimeUtil.getFormattedYearMonth(Calendar.getInstance())
         viewPager.adapter = adapter
+        adapter.notifyDataSetChanged()
         viewPager.currentItem = TimeUtil.getNumberMonthBetWeenTwoDays(calendar, Calendar.getInstance())
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
@@ -52,4 +55,10 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
+
+    internal fun setStartDate(date: Date?) {
+        startDate = date
+    }
+
+    internal fun getStartDate() = startDate
 }

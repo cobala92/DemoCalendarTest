@@ -7,21 +7,27 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.phuongdangn.democalendarkotlin.model.MyDate
 import com.example.phuongdangn.democalendarkotlin.utils.DateUtils
 import com.example.phuongdangn.democalendarkotlin.utils.ItemClickListener
 import kotlinx.android.synthetic.main.fragment_month.*
+import java.time.Month
 import java.util.*
+import kotlin.math.min
 
 /**
  * Created by phuongdn on 4/5/19.
  */
-class MonthFragment : Fragment() ,ItemClickListener{
+class MonthFragment : Fragment(), ItemClickListener {
+    override fun onDateSelect(myDate: MyDate, isEndDate: Boolean) {
+    }
+
     override fun onItemClick(view: View, position: Int) {
-       Log.d("TAG25", "xxxxx click")
+        Log.d("TAG25", "xxxxx click")
     }
 
     override fun onLongItemClick(view: View, position: Int) {
-      Log.d("TAG25", "long click")
+        Log.d("TAG25", "long click")
     }
 
     companion object {
@@ -38,25 +44,42 @@ class MonthFragment : Fragment() ,ItemClickListener{
     }
 
     private lateinit var adapter: MonthAdapter
+    private var startDate: Date? = null
+    private var endDate: Date? = null
+    private val days = ArrayList<MyDate>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.d("xxx", "onCreateView: ")
         return inflater.inflate(R.layout.fragment_month, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d("xxx", "onViewCreated: ")
         super.onViewCreated(view, savedInstanceState)
 
         val calendar = arguments?.getSerializable(KEY_START_CALENDAR) as? Calendar
         val position = arguments?.getSerializable(KEY_START_CALENDAR_POSITION)as?Int
-        adapter = MonthAdapter(context!!, calendar!!, loadMonth(position!!),this)
+        adapter = MonthAdapter(context!!, calendar!!, loadMonth(position!!))
         recyclerView.layoutManager = activity?.let { GridLayoutManager(it, NUMBER_DAY_OF_WEEK) }
         recyclerView.adapter = adapter
+        adapter.itemOnClicked = this::AA
     }
 
+    private fun AA(myDate: MyDate, position: Int) {
+        if ((activity as MainActivity).getStartDate() != null) {
+            for (i in 0 until days.size) {
+                if (days[i].date >= (activity as MainActivity).getStartDate() && days[i].date <= myDate.date) {
+                    days[i].isInRange = true
+                }
+            }
+        } else {
+            (activity as MainActivity).setStartDate(myDate.date)
+            days[position].isInRange = true
+        }
+        adapter.notifyDataSetChanged()
+    }
 
-    fun loadMonth(position: Int): List<Date> {
-        val days = ArrayList<Date>()
-
+    fun loadMonth(position: Int): List<MyDate> {
         // Get Calendar object instance set calendar to current
         val calendar = DateUtils.getCalendar()
 //        calendar.add(Calendar.YEAR, +1000)
@@ -82,7 +105,7 @@ class MonthFragment : Fragment() ,ItemClickListener{
         (a part of previous month, current month and a part of next month))
          */
         while (days.size < 42) {
-            days.add(calendar.time)
+            days.add(MyDate(calendar.time))
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
         return days
