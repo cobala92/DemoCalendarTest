@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/llDay"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+    <com.example.phuongdangn.democalendarkotlin.utils.TextViewCustom
+            android:id="@+id/tvDay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:textSize="12dp"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"
+            tools:text="10"/>
+
+    <LinearLayout
+            android:id="@+id/llNote"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            android:gravity="center"
+            android:background="@android:color/holo_red_light"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:background="#cccccc" />-->
+</RelativeLayout>
