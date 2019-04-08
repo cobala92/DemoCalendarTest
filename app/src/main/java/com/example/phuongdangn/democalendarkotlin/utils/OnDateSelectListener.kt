@@ -8,4 +8,6 @@ import java.util.*
  */
 interface OnDateSelectListener {
     fun onDateSelect()
+
+    fun onClearDateRange(position: Int)
 }

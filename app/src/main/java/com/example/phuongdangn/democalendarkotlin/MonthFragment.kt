@@ -51,16 +51,18 @@ class MonthFragment : Fragment(), OnDateSelectListener {
 
     private fun setRangeDate(myDate: MyDate, position: Int) {
         val mainActivity = (activity as MainActivity)
-        if (!mainActivity.isEndDate) {
+        if (mainActivity.isEndDate) {
+            Log.d("xxx", "setRangeDate: 11111")
+            mainActivity.startDate = myDate.date
+            mainActivity.clearDateRange(position)
+            days[position].isInRange = true
+            adapter.notifyItemChanged(position)
+            mainActivity.isEndDate = false
+        } else {
+            Log.d("xxx", "setRangeDate: 2222")
             mainActivity.endDate = myDate.date
             mainActivity.notify()
             mainActivity.isEndDate = true
-        } else {
-            mainActivity.startDate = myDate.date
-            days.forEach { it.isInRange = false }
-            days[position].isInRange = true
-            mainActivity.isEndDate = false
-            adapter.notifyDataSetChanged()
         }
     }
 
@@ -72,7 +74,7 @@ class MonthFragment : Fragment(), OnDateSelectListener {
         // Add months to Calendar (a number of months depends on ViewPager position)
         calendar.add(Calendar.MONTH, position)
 
-        // Set day of month as 1
+        // Set day of month as 1s
         calendar.set(Calendar.DAY_OF_MONTH, 1)
 
         // Get a number of the first day of the week
@@ -90,7 +92,7 @@ class MonthFragment : Fragment(), OnDateSelectListener {
         (a part of previous month, current month and a part of next month))
          */
         while (days.size < 42) {
-            days.add(MyDate(calendar.time, (activity as? MainActivity)?.isDateInRange(calendar.time) ?: false))
+            days.add(MyDate(calendar.time,  (activity as? MainActivity)?.isDateInRange(calendar.time) ?: false))
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
         return days
@@ -98,6 +100,11 @@ class MonthFragment : Fragment(), OnDateSelectListener {
 
     override fun onDateSelect() {
         days.forEach { it.isInRange = (activity as? MainActivity)?.isDateInRange(it.date) ?: false }
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun onClearDateRange(position: Int) {
+        days.forEach { it.isInRange = false }
         adapter.notifyDataSetChanged()
     }
 }

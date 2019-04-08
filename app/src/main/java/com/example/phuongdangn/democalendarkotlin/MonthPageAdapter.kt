@@ -58,4 +58,8 @@ class MonthPageAdapter(fm: FragmentManager, calendar: Calendar?) : FragmentState
     fun notifyChilden() {
         instances.forEach { it.onDateSelect() }
     }
+
+    fun clearDateRange(position: Int) {
+        instances.forEach { it.onClearDateRange(position) }
+    }
 }

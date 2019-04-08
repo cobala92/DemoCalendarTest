@@ -147,7 +147,7 @@ class MonthAdapter(
 //                    selected.add(position)
 //                } else {
 //                    val oldSelected = selected[0]
-//                    selected.clear()
+//                    selected.addStartDate()
 //                    selected.add(position)
 //                    // we do not notify that an item has been selected
 //                    // because that work is done here.  we instead send

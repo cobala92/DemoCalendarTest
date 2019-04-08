@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var calendar: Calendar
     private lateinit var adapter: MonthPageAdapter
-    var isEndDate = false
+    var isEndDate = true
     var startDate: Date? = null
     var endDate: Date? = null
 
@@ -58,9 +58,12 @@ class MainActivity : AppCompatActivity() {
 
     internal fun notify() {
         adapter.notifyChilden()
-        isEndDate = false
     }
 
-    fun isDateInRange(date: Date) =
+    internal fun clearDateRange(position: Int) {
+        adapter.clearDateRange(position)
+    }
+
+    internal fun isDateInRange(date: Date) =
         startDate != null && endDate != null && ((date >= startDate && date <= endDate) || (date <= startDate && date >= endDate))
 }
