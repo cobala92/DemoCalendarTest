@@ -59,7 +59,11 @@ class MonthAdapter(
         sdf.applyPattern(DAY_FORMAT)
         val formattedDate = sdf.format(days[position].date)
         holder.tvDay.text = formattedDate.toString()
-//
+
+        if (days[position].isInRange && isDayOfMonth(position)) {
+            holder.llDay.setBackgroundColor(Color.CYAN)
+        } else {
+
 //        // background light
 //        if (position in 11..29) {
 //            holder.llDay.setBackgroundColor(Color.parseColor("#e8ffca7a"))
@@ -110,11 +114,6 @@ class MonthAdapter(
 //                }
 //            }
 //        }
-
-        if (days[position].isInRange && isDayOfMonth(position)) {
-            holder.llDay.setBackgroundColor(Color.CYAN)
-        } else {
-            holder.llDay.setBackgroundColor(Color.WHITE)
         }
     }
 
