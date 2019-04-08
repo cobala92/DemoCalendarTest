@@ -52,14 +52,13 @@ class MonthFragment : Fragment(), OnDateSelectListener {
     private fun setRangeDate(myDate: MyDate, position: Int) {
         val mainActivity = (activity as MainActivity)
         if (mainActivity.isEndDate) {
-            Log.d("xxx", "setRangeDate: 11111")
             mainActivity.startDate = myDate.date
+            mainActivity.endDate = myDate.date
             mainActivity.clearDateRange(position)
             days[position].isInRange = true
             adapter.notifyItemChanged(position)
             mainActivity.isEndDate = false
         } else {
-            Log.d("xxx", "setRangeDate: 2222")
             mainActivity.endDate = myDate.date
             mainActivity.notify()
             mainActivity.isEndDate = true
