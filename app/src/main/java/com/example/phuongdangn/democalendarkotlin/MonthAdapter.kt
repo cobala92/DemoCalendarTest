@@ -116,7 +116,6 @@ class MonthAdapter(
                 }
             }
         }
-
     }
 
     private fun isDayOfMonth(position: Int): Boolean {
