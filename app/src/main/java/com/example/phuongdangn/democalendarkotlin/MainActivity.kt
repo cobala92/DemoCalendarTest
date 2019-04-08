@@ -3,7 +3,6 @@ package com.example.phuongdangn.democalendarkotlin
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -11,8 +10,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var calendar: Calendar
     private lateinit var adapter: MonthPageAdapter
-    private var startDate: Date? = null
-    private var endDate: Date? = null
+    var isEndDate = false
+    var startDate: Date? = null
+    var endDate: Date? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +56,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    internal fun setStartDate(date: Date?) {
-        startDate = date
+    internal fun notify() {
+        adapter.notifyChilden()
+        isEndDate = false
     }
 
-    internal fun getStartDate() = startDate
+    fun isDateInRange(date: Date) =
+        startDate != null && endDate != null && ((date >= startDate && date <= endDate) || (date <= startDate && date >= endDate))
 }
