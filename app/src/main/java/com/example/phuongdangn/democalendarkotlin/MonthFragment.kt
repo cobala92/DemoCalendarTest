@@ -63,6 +63,7 @@ class MonthFragment : Fragment(), OnDateSelectListener {
             mainActivity.notify()
             mainActivity.isEndDate = true
 
+
         }
     }
 
